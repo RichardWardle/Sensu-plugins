@@ -57,7 +57,7 @@ try
     ForEach( $file in $results)
     {
         if ($file.Length -lt $minSize) { $errorfiles = $errorfiles + " " + $file.FullName + ","}
-        else { $okfiles = $okfiles + " " + $file}
+        else { $okfiles = $okfiles + " " + $file + ","}
     }
 
     if ($errorFiles -ne "File Errors:") { $counter++}
