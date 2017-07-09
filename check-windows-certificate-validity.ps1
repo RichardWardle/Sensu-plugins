@@ -59,8 +59,8 @@ if ( $warning -lt $critical)
 
 try 
 {
-    Set-Location "$location"
-    $results = Get-ChildItem -Recurse -DnsName "*$name*" | SELECT NotAfter, NotBefore, DnsNameList
+    Set-Location "$location" -ErrorAction stop -Verbose
+    $results = Get-ChildItem -Recurse -DnsName "*$name*" | SELECT NotAfter, NotBefore, DnsNameList -ErrorAction stop -Verbose
     if (!$results) 
     {
         Write-Host Error: No certificates found called $name in $location
