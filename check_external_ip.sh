@@ -54,6 +54,6 @@ then
         echo Warning: I had a problem connecting to the service please check curl error response above
         exit 1
 else
-        echo Error: Your external IP is $external and NOT $IP
+        echo Error: Your external IP is $external NOT $IP
         exit 2
 fi
