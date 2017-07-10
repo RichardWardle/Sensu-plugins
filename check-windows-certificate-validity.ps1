@@ -17,8 +17,8 @@
 #    }
 #  }
 #}
-# Example 1: Checks all certificates with example in the DnsName and adheres to the default in cert:\LocalMachine\My
-# check-windows-certificate-validity.ps1 -name example
+# Example 1: Checks all certificates with example before/after in DnsName and adheres to the default in cert:\LocalMachine\My
+# check-windows-certificate-validity.ps1 -name *example*
 # Example 2: Checks all certificates, reduces the warning days to 10 and critical to 5. Does not alert on certificates with example-DC-CA
 # check-windows-certificate-validity.ps1 -warning 10 True -critical 5 -override example-DC-CA
 # Example 3: Checks all certificates in the CurrentUser location
@@ -53,7 +53,7 @@ Import-Module pki
 
 if ( $warning -lt $critical)
 {
-    Write-Host "Warning("$warning") can not be less than critical("$critical")"
+    Write-Output "Warning($warning) can not be less than critical($critical)"
     Exit 3
 }
 
@@ -63,7 +63,7 @@ try
     $results = Get-ChildItem -Recurse -DnsName "*$name*" | SELECT NotAfter, NotBefore, DnsNameList -ErrorAction stop -Verbose
     if (!$results) 
     {
-        Write-Host Error: No certificates found called $name in $location
+        Write-Output "Error: No certificates found called $name in $location"
         Exit 3
     }
     ForEach ($cert in $results) 
@@ -98,11 +98,11 @@ try
             }
     }
 
-    Write-Host $expiredMessage
-    Write-Host $criticalMessage
-    Write-Host $warningMessage 
-    Write-Host $okMessage
-    Write-Host $ignoredMessage
+    Write-Output "$expiredMessage"
+    Write-Output "$criticalMessage"
+    Write-Output "$warningMessage"
+    Write-Output "$okMessage"
+    Write-Output "$ignoredMessage"
 
     if ($criticalCount -gt 0) { Exit 2}
     elseif ($warningCount -gt 0) { Exit 1 }
@@ -110,7 +110,6 @@ try
 }
 catch 
 {
-    Write-host HELP
-    Write-host Run Error: $_.Exception.Message
+    Write-Output "Run Error: $_.Exception.Message"
     Exit 3
 }
