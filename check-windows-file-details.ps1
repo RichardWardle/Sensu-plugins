@@ -44,26 +44,30 @@ Param(
 [string]$errorfiles = "File Errors:"
 [string]$okfiles = "File OK:"
 
-if (($subfolders -ne "False") -and ($subfolders -ne "True")){ Write-Host Incorrect subfolders parameter passed, it is either True or False exactly; Exit 3}
+if (!(Test-Path $dir)) { Write-Output "Folder $dir does not exsist"; Exit 1}
+if (($subfolders -ne "False") -and ($subfolders -ne "True")){ Write-Output "Incorrect subfolders parameter passed, it is either True or False exactly"; Exit 3}
 
 try 
 {
     if ($subfolders -eq "False") { $results = Get-ChildItem -Path "$dir\*" -include $include -exclude $exclude -Verbose -Debug }
     else { $results = Get-ChildItem -Path "$dir\*" -Recurse -include $include -exclude $exclude -Verbose -Debug }
  
-    if (( $results.Count -lt $expectedCount ) -or ( $results.Count -gt $expectedCount )) { Write-Host File Count Error:  $results.Count out of $expectedCount; $counter++ }
-    else {  Write-Host File Count OK: $results.Count out of $expectedCount }
+    if (( $results.Count -lt $expectedCount ) -or ( $results.Count -gt $expectedCount )) { Write-Output "File Count Error:  $($results.Count) out of $expectedCount"; $counter++ }
+    else {  Write-Output "File Count OK: $($results.Count) out of $expectedCount" }
 
     ForEach( $file in $results)
     {
-        if ($file.Length -lt $minSize) { $errorfiles = $errorfiles + " " + $file.FullName + ","}
-        else { $okfiles = $okfiles + " " + $file + ","}
+        if ($file.Length -lt $minSize) { $errorfiles = $errorfiles + " " + $file.FullName + "," }
+        else { $okfiles = $okfiles + " " + $file + "," }
     }
 
     if ($errorFiles -ne "File Errors:") { $counter++}
     
-    Write-Host $errorfiles.TrimEnd(", ")
-    Write-Host $okFiles.TrimEnd(", ")
+    $errorfiles = $errorfiles.TrimEnd(", ")
+    $okFiles = $okfiles.TrimEnd(", ")
+
+    Write-Output "$errorfiles"
+    Write-Output "$okFiles"
 
     if ( $counter -eq 1) {Exit 1}
     elseif ( $counter -eq 2) {Exit 2}
@@ -71,7 +75,7 @@ try
 }
 catch
 {
-    Write-Host Unknown Error has occured please investigate
-    Write-host Run Error: $_.Exception.Message
+    Write-Output "Unknown Error has occured please investigate"
+    Write-Output "Run Error: $_.Exception.Message"
     Exit 3
 }
