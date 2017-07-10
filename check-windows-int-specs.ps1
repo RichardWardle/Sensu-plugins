@@ -40,12 +40,12 @@ try {
     $results = Get-NetAdapter | SELECT name, status, speed, fullduplex | where name -like *$name* 
     if (!$results)
         {
-        Write-Host "Error: Search Returned no results"
+        Write-Output "Error: Search Returned no results"
         Exit 3
         }
     } 
 catch { 
-    Write-host Run Error: $_.Exception.Message
+    Write-Output "Run Error: $_.Exception.Message"
     Exit 3
     }
     
@@ -70,17 +70,17 @@ ForEach ($element in $results) {
 if ( $errors -ne "ERRORS: ")
 {
     $errors = $errors.Substring(0,$errors.Length-2)
-    Write-Host $errors
+    Write-Output "$errors"
     Exit 2
 }
 elseif ( $errors -like "ERRORS: *")
 {
     $success = $success.Substring(0,$success.Length-2)
-    Write-Host $success
+    Write-Output "$success"
     Exit 0
 }
 else
 {
-    Write-Host Unknown logic error has occured, please investigate.
+    Write-Output "Unknown logic error has occured, please investigate."
     Exit 3
 }
