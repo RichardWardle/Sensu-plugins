@@ -22,13 +22,14 @@
 # Example 2: Checks IP address matches 6.6.6.6 and specifies a timeout of 10
 # check-windows-external-ip.ps1 -ip 6.6.6.6 -timeout 10
 
+
 Param(
   [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
-  [ValidateScript({ try {$_ -match [IPAddress]$_} catch { Write-Host $_ is not a valid IP address; Exit 3} })]  
+  [ValidateScript({ try {$_ -match [IPAddress]$_} catch { Write-Output "$_ is not a valid IP address"; Exit 3} })]  
   [string]$ip,
 
   [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
-  [ValidateScript({ try {$_ -match [int]$_} catch { Write-Host $_ is not a valid integer; Exit 3} })]  
+  [ValidateScript({ try {$_ -match [int]$_} catch { Write-Output "$_ is not a valid integer"; Exit 3} })]  
   [string]$timeout
 )
 
@@ -36,25 +37,25 @@ try {
     $results = invoke-webrequest http://ifconfig.co/json -TimeoutSec $timeout | ConvertFrom-Json -ErrorAction stop -Verbose
     if ($results.ip -eq $ip)
     {
-        Write-Host Success: Internal $ip matches external address: $results.ip
+        Write-Output "Success: Internal $ip matches external address: $results.ip"
         Exit 0
     }
     elseif ($results.ip -ne $ip)
     {
-        Write-Host Error: Internal $ip DOES NOT match external address: $results.ip
+        Write-Output "Error: Internal $ip DOES NOT match external address: $results.ip"
         Exit 2
     }
     else
     {
-        Write-Host Unknown Error has occured, please check debug
-        Write-Host Results: $results
+        Write-Output "Unknown Error has occured, please check debug"
+        Write-Output "Results: $results"
         Exit 1
     }
 }
 catch
 {
-    Write-Host "Warning: I could not connect to the service. Please ensure internet connectivity, timeout value is high enough, you are not hammering http://ifconfig.co and the Invoke-WebRequest error below"
-    Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__
-    Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
+    Write-Output "Warning: I could not connect to the service. Please ensure internet connectivity, timeout value is high enough, you are not hammering http://ifconfig.co and the Invoke-WebRequest error below"
+    Write-Output "StatusCode: $_.Exception.Response.StatusCode.value__"
+    Write-Output "StatusDescription: $_.Exception.Response.StatusDescription"
     Exit 1
 }
