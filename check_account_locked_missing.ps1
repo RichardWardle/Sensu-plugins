@@ -48,35 +48,28 @@ ForEach($user in $accounts.split(","))
     }
 }
 
-
-#$userNotExsist.Length
-#$userLockedOut.Length
-#$userNotLocked.Length
-
 if (($userNotExsist.Length -gt 0) -and ($userLockedOut.Length -gt 0))
 {
-    Write-Host Locked Users: $userLockedOut and Unknown Users: $userNotExsist
+    Write-Output "Locked Users: $userLockedOut and Unknown Users: $userNotExsist"
     Exit 2
 }
 elseif ($userLockedOut.Length -gt 0)
 {
-    Write-Host Locked Users: $userNotExsist
+    Write-Output "Locked Users: $userNotExsist"
     Exit 2
 }
 elseif ($userNotExsist.Length -gt 0)
 {
-    Write-Host Unkown Users: $userNotExsist
+    Write-Output "Unkown Users: $userNotExsist"
     Exit 1
 }
 elseif ($UserNotLocked.Length -gt 0)
 {
-    Write-Host Unlocked Users: $userNotLocked
+    Write-Output "Unlocked Users: $userNotLocked"
     Exit 0
 }
 else
 {
-    Write-Host Something has gone wrong as no users are locked, unlocked or do NOT exsist, check if i was invoked properly
+    Write-Output "Something has gone wrong as no users are locked, unlocked or do NOT exsist, check if i was invoked properly"
     Exit 3
 }
-
-
