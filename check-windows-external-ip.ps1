@@ -34,15 +34,15 @@ Param(
 )
 
 try {
-    $results = invoke-webrequest http://ifconfig.co/json -TimeoutSec $timeout | ConvertFrom-Json -ErrorAction stop -Verbose
+    $results = invoke-webrequest http://ifconfig.co/json -TimeoutSec $timeout -UseBasicParsing | ConvertFrom-Json -ErrorAction stop -Verbose
     if ($results.ip -eq $ip)
     {
-        Write-Output "Success: Internal $ip matches external address: $results.ip"
+        Write-Output "Success: Internal $ip matches external address: $($results.ip)"
         Exit 0
     }
     elseif ($results.ip -ne $ip)
     {
-        Write-Output "Error: Internal $ip DOES NOT match external address: $results.ip"
+        Write-Output "Error: Internal $ip DOES NOT match external address: $($results.ip)"
         Exit 2
     }
     else
@@ -55,7 +55,7 @@ try {
 catch
 {
     Write-Output "Warning: I could not connect to the service. Please ensure internet connectivity, timeout value is high enough, you are not hammering http://ifconfig.co and the Invoke-WebRequest error below"
-    Write-Output "StatusCode: $_.Exception.Response.StatusCode.value__"
-    Write-Output "StatusDescription: $_.Exception.Response.StatusDescription"
+    Write-Output "StatusCode: $($_.Exception.Response.StatusCode.value__)"
+    Write-Output "StatusDescription: $($_.Exception.Response.StatusDescription)"
     Exit 1
 }
