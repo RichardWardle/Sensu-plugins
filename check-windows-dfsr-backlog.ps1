@@ -2,6 +2,7 @@
 # Author: Richard Wardle
 # Purpose: Checks your DFSR replication queues from one script for every connection on 2012 SYSTEMS ONLY
 # Paramters: $domainname (string, optional, defaults to your current domain name), $groupname (string, optional, defaults to all groupnames using '*'), $folder (string, optional, defaults to all folders), $backlogwarn (int, optional, defaults to 500, returns state 2 if we have more than this files between a connection site) , $backlogcrit (int, optional, defaults to 500, returns state 2 if we have more than this files for one connection),output (bool, optional, if you want to see outputs that are less than your warning value, useful if you want to show all links. This can get quite large if you have many member servers in a full mesh topology)
+# Warning this script needs administrative permissions to run the get-dfsrbacklog command otherwise you will get an error, sensu would run this as NT AUTHORITY\service which has no permissions to access network resources. I run the sensu service as a special user which is given permissions to run get-dfsrbacklog on all servers running the DFSR role
 # Sensu Example Check:
 #{
 #  "checks": {
