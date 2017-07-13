@@ -7,10 +7,26 @@
 
 while getopts :i:e:s:m:h: option; do
  case "${option}" in
-        i) incINT=${OPTARG};;
-        e) excINT=${OPTARG};;
-        s) SPEED=${OPTARG};;
-        m) MTU=${OPTARG};;
+        i) incINT=${OPTARG}
+           if [[ $incINT == "" ]]; then
+              incINT=^.*
+           fi
+           ;;
+        e) excINT=${OPTARG}
+           if [[ $excINT == "" ]]; then
+              excINT=gdsfdfgs
+           fi
+           ;;
+        s) SPEED=${OPTARG}
+           if [[ $SPEED == "" ]]; then
+              SPEED=1000
+           fi
+           ;;
+        m) MTU=${OPTARG}
+           if [[ $MTU == "" ]]; then
+              MTU=1500
+           fi
+           ;;
         h) echo USAGE: check_linux_int.sh -i Included INTERFACE -e excluded Interface -s SPEED -m MTU; exit 1; ;;
         \?) echo Invalid Parameter used. USAGE: check_linux_int.sh -i included_interfaces_string -e excluded_interfaces_string -s 10_100_1000_10000 -m 1500; exit 1; ;;
  esac
@@ -24,20 +40,6 @@ function strip()
  temp=$(cat /sys/class/net/$i/$2 2> /dev/null)
  echo "$temp"
 }
-
-#Sets my defaults if you do not put int anything, excINT set to somethingrandom that will always fail if you dont put anything in, speed is 1000 and MTU is 1500, incINT is regex to match everything
-if [[ $incINT == "" ]]; then
-        incINT=^.*
-fi
-if [[ $excINT == "" ]]; then
-        excINT=gdsfdfgs
-fi
-if [[ $SPEED == "" ]]; then
-        SPEED=1000
-fi
-if [[ $MTU == "" ]]; then
-        MTU=1500
-fi
 
 #The below gets all the interfaces which are masters in teaming then we get all the interfaces and only include the ones we want, strip those we dont adn remove loopback/team/bonded
 teamMasters=$(ip addr show type team | grep -e "^.: " | awk -F ": " '{print $2}')
@@ -58,7 +60,7 @@ for i in $interfaces; do
                 tempMTU=$(strip $i mtu)
                 tempMAC=$(strip $i address)
                 if [ "$tempDuplex" != "full" ] || [ "$tempLink" != "up" ] || [ "$tempSpeed" != "$SPEED" ] || [ "$tempMTU" != "$MTU" ]; then
-                        echo Interface $i Error: $tempLink/$tempSpeed/$tempDuplex/$tempMTU/$tempMAC EXPECTED yes/$SPEED/Full/$MTU/$tempMAC
+                        echo Interface $i Error: $tempLink/$tempSpeed/$tempDuplex/$tempMTU/$tempMAC EXPECTED: yes/$SPEED/Full/$MTU/$tempMAC
                         let error++
                 else
                         echo Interface $i OK: $tempLink/$tempSpeed/$tempDuplex/$tempMAC
