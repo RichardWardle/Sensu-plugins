@@ -3,7 +3,7 @@
 # -i is the ip of the remote end of the tunnel, -a is the asa address of your end which you use to connect to the other side, -c is the community string
 # I have this on my ASAs to allow connection "snmp-server host inside 192.168.50.11 cisco version 2c", 192.168.50.11 makes the snmp query using string cisco
 # This script was tested on ASA 5520 with a CPN Plus license
-# example usage: bash check-ipsec-tunnel.sh -a "192.168.50.1" -i "192.168.42.1" -c "cisco" 
+# example usage: bash check_ipsec_tunnel.sh -a "192.168.50.1" -i "192.168.42.1" -c "cisco" 
 #        Result: Success: 192.168.42.1 is working, Phase 1: UP, Phase 2: UP
     
 
