@@ -38,3 +38,6 @@ Checks that an IPSEC tunnel is up on an ASA 5520 (may work on others but not tes
 
 ### check_linux_int.sh
 Same as check-windows-int-specs.ps1 but will also check the MTU and provide the MAC address
+
+### check_linux_yum_packages.sh
+Simple check that looks to see if you have any packages requiring and update from your repositories. I would use this with an upstream package management solution you control given it could error everyday if you are just looking at the main solutions. I would not reccomend using remediation to automatically install the updates given it could break dependencies unless you have a process in place that ensures this doesnt happen e.g. testing, specified downtime.
