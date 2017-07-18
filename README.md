@@ -41,3 +41,6 @@ Same as check-windows-int-specs.ps1 but will also check the MTU and provide the 
 
 ### check_linux_yum_packages.sh
 Simple check that looks to see if you have any packages requiring and update from your repositories. I would use this with an upstream package management solution you control given it could error everyday if you are just looking at the main solutions. I would not reccomend using remediation to automatically install the updates given it could break dependencies unless you have a process in place that ensures this doesnt happen e.g. testing, specified downtime.
+
+### check-windows-cluster-disk-size.ps1
+Checks all disks as per your windows cluster against specific thresholds. This is similar to any standard disk check but specifically looks up the clusters and then the cluster resources you have. We then make a call to WMI to get the relevant information. Get-volume could have worked but it seemed that you had to look up where the disk was potentially owned (this was the case for my quorom disk and while possible was more work than nessecary for this immediate check)
