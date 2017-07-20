@@ -1,3 +1,7 @@
+#!/usr/bin/sh
+# Paramter one is the service (ec2)
+# Paramter two is the zone (us-east-2)
+
 date=$(date +%a," "%d" "%b" "%Y)
 
 if [[ $1 == "" ]] || [[ $2 == "" ]] || [[ $# != 2 ]]; then
