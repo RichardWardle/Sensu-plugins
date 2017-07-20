@@ -14,7 +14,7 @@ link="http://status.aws.amazon.com/rss/${service}-${zone}.rss"
 curl -H "Content-Type: text/xml" -N -s -g $link | xmlstarlet sel -t -m "/rss/channel/item" -v "title" -o "|" -v "pubDate" -o "|" -v "description" -n 1> output.txt
 
 if [[ $? != 0 ]]; then
-        echo "I had a problem accessing: $link, please check internet connectivity, your paramters, your proxy and that packages curl and xmlstarlet are installed"
+        echo "UNKNOWN ERROR: I had a problem accessing: $link, please check internet connectivity, your paramters, your proxy and that packages curl and xmlstarlet are installed"
         exit 3
 fi
 
