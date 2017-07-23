@@ -4,7 +4,7 @@ Repository of my sensu plugins created or modified, please take or modify as you
 # Check Descriptions
 
 ### check-windows-certificate-validity.ps1 
-This is to check the windows certificates in a specified store in windows. You can use this for certificates that you may not be able to curl or query for. Can exclude certificates and warn or give a critical alert with specified thresholds. This should be run individually on server you want to check
+This is to check the windows certificates in a specified store in windows. You can use this for certificates that you may not be able to curl or query for. Can exclude certificates and warn or give a critical alert with specified thresholds. This should be run individually on server you want to check. NOTE: This will not error on certificates that have been revoked, e.g a certificate that is Certificate is REVOKED from "certutil -verifystore My" will still show as valid, if you run your own internal CA it may be useful follow https://blogs.technet.microsoft.com/pki/2008/10/03/disposition-values-for-certutil-view-restrict-and-some-creative-samples/ to check for certificates expiring at the source. This may be useful if you have a certificate provided by a third party imported into your servers.
 
 ### check-windows-connected-users.ps1 
 Checks who is logged in and lets you know (inc who has console) you can use this to alert if too many people are logged into a server or if no one is logged in (this is useful if you only expect one user to be logged in as console and other users may cause problems). Has the ability to check remote server if required but I use it and check each server individually
