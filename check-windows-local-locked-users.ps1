@@ -21,15 +21,20 @@ try
 
     ForEach ($indLock in $lockedUsers)
     {
-        $events=Get-WinEvent -ComputerName $comp -FilterHashtable @{logname='security';data=$indLock.Name} -MaxEvents $eventline | 
-        Select-Object -Property TimeCreated, Message, MachineName
+        $time= (Get-Date).AddHours(-3)
+     
+        $events=Get-WinEvent -ComputerName $comp -FilterHashtable @{logname='security';data=$indLock.Name;id='4625';StartTime=$time} -MaxEvents $eventline | 
+        Select-Object -Property TimeCreated, Message, MachineName, Id
       
-        Write-output "User: $($events[0].MachineName)\$($indLock.Name) is currently locked out"
+        $lockOutEvent= Get-WinEvent -ComputerName $comp -FilterHashtable @{logname='security';id=4740;data=$indLock.Name;StartTime=$time} -MaxEvents 1 |
+        Select-Object -Property @{label='computername';expression={$_.properties[1].value}}
+
+        Write-output "User: $($events[0].MachineName)\$($indLock.Name) is currently locked out, suspect source is $($lockOutEvent.computername)"
         Write-output ""
 
         ForEach ($single in $events)
         {
-         Write-output "Time: $($single.TimeCreated.DateTime), Message: $(($single.message -split '\n')[0])"
+         Write-output "EventID:$($single.Id), Time: $($single.TimeCreated.DateTime), Message: $(($single.message -split '\n')[0])"
         }
         Write-Output ""
         $errors=1
