@@ -23,10 +23,10 @@ try
     {
         $time= (Get-Date).AddHours(-3)
      
-        $events=Get-WinEvent -ComputerName $comp -FilterHashtable @{logname='security';data=$indLock.Name;id='4625';StartTime=$time} -MaxEvents $eventline | 
+        $events=Get-WinEvent -ComputerName "$comp" -FilterHashtable @{logname='security';data=$indLock.Name;id='4625';StartTime=$time} -MaxEvents $eventline -EA stop | 
         Select-Object -Property TimeCreated, Message, MachineName, Id
       
-        $lockOutEvent= Get-WinEvent -ComputerName $comp -FilterHashtable @{logname='security';id=4740;data=$indLock.Name;StartTime=$time} -MaxEvents 1 |
+        $lockOutEvent= Get-WinEvent -ComputerName "$comp" -FilterHashtable @{logname='security';id=4740;data=$indLock.Name;StartTime=$time} -MaxEvents 1 -EA stop |
         Select-Object -Property @{label='computername';expression={$_.properties[1].value}}
 
         Write-output "User: $($events[0].MachineName)\$($indLock.Name) is currently locked out, suspect source is $($lockOutEvent.computername)"
