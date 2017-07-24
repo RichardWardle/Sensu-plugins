@@ -26,11 +26,11 @@
 Param(
   [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
   [ValidateScript({ try {$_ -match [IPAddress]$_} catch { Write-Output "$_ is not a valid IP address"; Exit 3} })]  
-  [string]$ip,
+  [IPAddress]$ip,
 
   [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
   [ValidateScript({ try {$_ -match [int]$_} catch { Write-Output "$_ is not a valid integer"; Exit 3} })]  
-  [string]$timeout
+  [int]$timeout
 )
 
 try {
