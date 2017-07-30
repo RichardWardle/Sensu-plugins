@@ -1,6 +1,6 @@
 # Date: 13/07/2017
 # Author: Richard Wardle
-# Purpose: Checks your DFSR replication queues from one script for every connection on 2012 SYSTEMS ONLY
+# Purpose: Checks your connected users and alerts based on amount of connected/not connected users etc
 # Paramters: Server where you want to monitor and defaults to localhost. minConnected is the how many users you expect to be connected, it is 0 by default but if you always expect someone to be logged in e.g your applications run in console then change appropriatley
 # activeCrit and activeWarn are the used to alert you when you have active sessions running and they are above those values. disconnectCrit and disconnectWarn are the used to alert you when you have Disc sessions running and they are above those values.. Crit exits with 2 and Warn exits with 1, if both error it will always display a CRIT error.
 # We are parsing essentially the below output. The below has one user in Active and one in disconnected state. Run this command with SilentlyContinue as ErrorAction as I do not handle if there are NO USERS logged in given I can not pass the output directly into an object and hacked it to work the way i wanted with the internets help
