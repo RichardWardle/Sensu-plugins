@@ -31,7 +31,10 @@ Checks that the duplex, speed, state of required NICS are up and at the speed yo
 Checks that specified windows accounts exsist, error that they are missing if not. It will also ensure they are not locked out. I use this for monitoring specific service accounts or core accounts people use such as CEO's or EA's so we can adress them
 
 ### check_external_ip.sh 
-This is the same as check-windows-external-ip.ps1 but for a linux end node
+This is the same as check-windows-external-ip.ps1 but for a linux end node written in bash
+
+### check_external_ip.py
+This is the same as check-windows-external-ip.ps1 but for a linux end node written in python
 
 ### check_ipsec_tunnel.sh 
 Checks that an IPSEC tunnel is up on an ASA 5520 (may work on others but not tested), error if not so you can look into why this is the case
