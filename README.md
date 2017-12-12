@@ -30,6 +30,9 @@ Checks that the duplex, speed, state of required NICS are up and at the speed yo
 ### check_account_locked_missing.ps1 
 Checks that specified windows accounts exsist, error that they are missing if not. It will also ensure they are not locked out. I use this for monitoring specific service accounts or core accounts people use such as CEO's or EA's so we can adress them
 
+### check-windows-fsmo-holders.ps1
+Checks FSMO roles of AD on the domain specified against what you provide to it. You can then monitor if your FSMO roles move from one system to another. This does not check if they are up or down only what active directory is reporting as the current owners of those roles
+
 ### check_external_ip.sh 
 This is the same as check-windows-external-ip.ps1 but for a linux end node written in bash
 
