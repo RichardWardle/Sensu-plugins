@@ -68,7 +68,7 @@ try
     }
     ForEach ($cert in $results) 
     {
-    $expire = $cert.NotAfter - $cert.NotBefore
+    $expire = $cert.NotAfter - $(get-date)
         if ($override -notcontains $cert.DnsNameList.Punycode)
         { 
                 if ( $expire.Days -lt 1)
