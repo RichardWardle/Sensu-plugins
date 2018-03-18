@@ -59,3 +59,6 @@ We used to have a bunch of servers in the DMZ that hosted our FTP. Users connect
 
 ### wsus_sync_completed.ps1
 Checks if your wsus server is synchronized with its upstream target. This will also alert based on your threshold if it took too long to sync (e.g. a slow link or large amount of updates or some performance issue) OR if it has been too long since an update has occured (e.g. we havent synchronized in 24 hours when we check 2 times a day). NOTE: This only targets one server but could easily be modified to target or pull from a list
+
+### check-dfsr-folders-replicated.ps1
+Check that a DFSR folder exists on a specific server. If you have a backup server that you point folders to to ensure it gets backed up and you have hundreds of folders across multiple replicaton groups you may forget to add one. This will check to ensure that each folder is present on ATLEAST one of your backup servers. If your replication is broken this wont help you identify that but it will help you notice if you forget to add one
