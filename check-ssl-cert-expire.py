@@ -50,9 +50,9 @@ def main(argv):
 
     if error == 0 and warn == 0:
         sys.exit(0)
-    elif warn > 0:
-        sys.exit(1)
-    sys.exit(2)
+    elif error > 0:
+        sys.exit(2)
+    sys.exit(1)
 
 if __name__ == "__main__":
    main(sys.argv[1:])
