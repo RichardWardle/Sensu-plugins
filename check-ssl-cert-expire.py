@@ -46,6 +46,7 @@ def main(argv):
                     print("Success: " + host['domain'] + " (" + serialNumber + ") will NOT expire soon, expires on: " + str(expire))
         except Exception as msg:
             print("Error:" + str(msg) + " for " + host['domain']+":"+str(host['port']))
+            error += 1
 
     if error == 0 and warn == 0:
         sys.exit(0)
